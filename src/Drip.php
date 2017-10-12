@@ -1,6 +1,6 @@
 <?php
 
-namespace DevelopYourMarketing\DripApi;
+namespace DevelopYourMarketing;
 
 /**
  * Drip API
@@ -28,13 +28,13 @@ class Drip {
      * Accepts the token and saves it internally.
      *
      * @param string $api_token e.g. qsor48ughrjufyu2dadraasfa1212424
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct($api_token) {
         $api_token = trim($api_token);
 
         if (empty($api_token) || !preg_match('#^[\w-]+$#si', $api_token)) {
-            throw new Exception("Missing or invalid Drip API token.");
+            throw new \Exception("Missing or invalid Drip API token.");
         }
 
         $this->api_token = $api_token;
@@ -47,7 +47,7 @@ class Drip {
      */
     public function get_campaigns($params) {
         if (empty($params['account_id'])) {
-            throw new Exception("Account ID not specified");
+            throw new \Exception("Account ID not specified");
         }
 
         $account_id = $params['account_id'];
@@ -55,7 +55,7 @@ class Drip {
 
         if (isset($params['status'])) {
             if (!in_array($params['status'], array('active', 'draft', 'paused', 'all'))) {
-                throw new Exception("Invalid campaign status.");
+                throw new \Exception("Invalid campaign status.");
             }
         } elseif (0) {
             $params['status'] = 'active'; // api defaults to all but we want active ones
@@ -86,7 +86,7 @@ class Drip {
      */
     public function fetch_campaign($params) {
         if (empty($params['account_id'])) {
-            throw new Exception("Account ID not specified");
+            throw new \Exception("Account ID not specified");
         }
 
         $account_id = $params['account_id'];
@@ -96,7 +96,7 @@ class Drip {
             $campaign_id = $params['campaign_id'];
             unset($params['campaign_id']); // clear it from the params
         } else {
-            throw new Exception("Campaign ID was not specified. You must specify a Campaign ID");
+            throw new \Exception("Campaign ID was not specified. You must specify a Campaign ID");
         }
 
         $url = $this->api_end_point . "$account_id/campaigns/$campaign_id";
@@ -148,7 +148,7 @@ class Drip {
      */
     public function create_or_update_subscriber($params) {
         if (empty($params['account_id'])) {
-            throw new Exception("Account ID not specified");
+            throw new \Exception("Account ID not specified");
         }
 
         $account_id = $params['account_id'];
@@ -182,7 +182,7 @@ class Drip {
      */
     public function fetch_subscriber($params) {
         if (empty($params['account_id'])) {
-            throw new Exception("Account ID not specified");
+            throw new \Exception("Account ID not specified");
         }
 
         $account_id = $params['account_id'];
@@ -195,7 +195,7 @@ class Drip {
             $subscriber_id = $params['email'];
             unset($params['email']); // clear it from the params
         } else {
-            throw new Exception("Subscriber ID or Email was not specified. You must specify either Subscriber ID or Email.");
+            throw new \Exception("Subscriber ID or Email was not specified. You must specify either Subscriber ID or Email.");
         }
 
         $subscriber_id = urlencode($subscriber_id);
@@ -226,21 +226,21 @@ class Drip {
      */
     public function subscribe_subscriber($params) {
         if (empty($params['account_id'])) {
-            throw new Exception("Account ID not specified");
+            throw new \Exception("Account ID not specified");
         }
 
         $account_id = $params['account_id'];
         unset($params['account_id']); // clear it from the params
 
         if (empty($params['campaign_id'])) {
-            throw new Exception("Campaign ID not specified");
+            throw new \Exception("Campaign ID not specified");
         }
 
         $campaign_id = $params['campaign_id'];
         unset($params['campaign_id']); // clear it from the params
 
         if (empty($params['email'])) {
-            throw new Exception("Email not specified");
+            throw new \Exception("Email not specified");
         }
 
         if (!isset($params['double_optin'])) {
@@ -277,7 +277,7 @@ class Drip {
      */
     public function unsubscribe_subscriber($params) {
         if (empty($params['account_id'])) {
-            throw new Exception("Account ID not specified");
+            throw new \Exception("Account ID not specified");
         }
 
         $account_id = $params['account_id'];
@@ -290,7 +290,7 @@ class Drip {
             $subscriber_id = $params['email'];
             unset($params['email']); // clear it from the params
         } else {
-            throw new Exception("Subscriber ID or Email was not specified. You must specify either Subscriber ID or Email.");
+            throw new \Exception("Subscriber ID or Email was not specified. You must specify either Subscriber ID or Email.");
         }
 
         $subscriber_id = urlencode($subscriber_id);
@@ -325,18 +325,18 @@ class Drip {
         $status = false;
 
         if (empty($params['account_id'])) {
-            throw new Exception("Account ID not specified");
+            throw new \Exception("Account ID not specified");
         }
 
         $account_id = $params['account_id'];
         unset($params['account_id']); // clear it from the params
 
         if (empty($params['email'])) {
-            throw new Exception("Email was not specified");
+            throw new \Exception("Email was not specified");
         }
 
         if (empty($params['tag'])) {
-            throw new Exception("Tag was not specified");
+            throw new \Exception("Tag was not specified");
         }
 
         $api_action = "$account_id/tags";
@@ -365,18 +365,18 @@ class Drip {
         $status = false;
 
         if (empty($params['account_id'])) {
-            throw new Exception("Account ID not specified");
+            throw new \Exception("Account ID not specified");
         }
 
         $account_id = $params['account_id'];
         unset($params['account_id']); // clear it from the params
 
         if (empty($params['email'])) {
-            throw new Exception("Email was not specified");
+            throw new \Exception("Email was not specified");
         }
 
         if (empty($params['tag'])) {
-            throw new Exception("Tag was not specified");
+            throw new \Exception("Tag was not specified");
         }
 
         $api_action = "$account_id/tags";
@@ -405,11 +405,11 @@ class Drip {
         $status = false;
 
         if (empty($params['account_id'])) {
-            throw new Exception("Account ID not specified");
+            throw new \Exception("Account ID not specified");
         }
 
         if (empty($params['action'])) {
-            throw new Exception("Action was not specified");
+            throw new \Exception("Action was not specified");
         }
 
         $account_id = $params['account_id'];
@@ -436,11 +436,11 @@ class Drip {
      * @param array $params
      * @param int $req_method
      * @return type
-     * @throws Exception
+     * @throws \Exception
      */
     public function make_request($url, $params = array(), $req_method = self::GET) {
         if (!function_exists('curl_init')) {
-            throw new Exception("Cannot find cURL php extension or it's not loaded.");
+            throw new \Exception("Cannot find cURL php extension or it's not loaded.");
         }
 
         $ch = curl_init();
